@@ -58,6 +58,13 @@ UserSchema.pre("save", function (next) {
   next();
 });
 
+//@ middleware untuk hide password dari response json agar tidak terlihat keluar
+UserSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+};
+
 const UserModel = mongoose.model("User", UserSchema);
 
 export default UserModel;
