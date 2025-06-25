@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import * as Yup from "yup";
 import UserModel from "../models/user.model";
 import { encrypt } from "../utils/encryption";
+import { generateToken } from "../utils/jwt";
+import { IRegUser } from "../middleware/auth.middleware";
 
 type TRegister = {
   fullName: string;
@@ -27,6 +29,7 @@ const registerValidateSchema = Yup.object({
 });
 
 export default {
+  //# register function
   async register(req: Request, res: Response) {
     const { fullName, username, email, password, confirmPassword } = req.body as unknown as TRegister;
 
@@ -46,6 +49,8 @@ export default {
       res.status(400).json({ message: err.message, data: null });
     }
   },
+
+  //# login function
   async login(req: Request, res: Response) {
     try {
       //* add user data based on "identifier" -> email & username
@@ -66,7 +71,25 @@ export default {
       if (!validatePassword) {
         return res.status(400).json({ message: "Password is incorrect", data: null });
       }
-      res.status(200).json({ message: "success login", data: userByIdentifier });
+
+      const token = generateToken({
+        id: userByIdentifier._id,
+        role: userByIdentifier.role,
+      });
+
+      res.status(200).json({ message: "success login", data: token });
+    } catch (error) {
+      const err = error as unknown as Error;
+      res.status(400).json({ message: err.message, data: null });
+    }
+  },
+
+  async me(req: IRegUser, res: Response) {
+    try {
+      const user = req.user;
+      const result = await UserModel.findById(user?.id);
+
+      res.status(200).json({ message: "success get user", data: result });
     } catch (error) {
       const err = error as unknown as Error;
       res.status(400).json({ message: err.message, data: null });
