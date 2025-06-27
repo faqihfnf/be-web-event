@@ -52,10 +52,19 @@ export default {
 
   //# login function
   async login(req: Request, res: Response) {
+    /**
+     #swagger.RequestBody = {
+        required: true,
+        schema: {
+          $ref: "#/components/schemas/LoginRequest"
+        }
+     }
+     */
+
+    const { identifier, password } = req.body as unknown as TLogin;
+
     try {
       //* add user data based on "identifier" -> email & username
-
-      const { identifier, password } = req.body as unknown as TLogin;
 
       const userByIdentifier = await UserModel.findOne({
         $or: [{ email: identifier }, { username: identifier }],
@@ -85,6 +94,11 @@ export default {
   },
 
   async me(req: IRegUser, res: Response) {
+    /** 
+     #swagger.security = [{
+        "bearerAuth": []
+     }] 
+     * */
     try {
       const user = req.user;
       const result = await UserModel.findById(user?.id);
