@@ -8,7 +8,7 @@ const doc = {
   },
   servers: [
     {
-      url: "http://localhost:3000",
+      url: "http://localhost:3000/api",
       description: "Local Server",
     },
     {
@@ -24,7 +24,7 @@ const doc = {
       },
     },
     schemas: {
-      loginRequest: {
+      LoginRequest: {
         identifier: "faqih1993",
         password: "1234",
       },

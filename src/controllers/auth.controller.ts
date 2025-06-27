@@ -53,11 +53,11 @@ export default {
   //# login function
   async login(req: Request, res: Response) {
     /**
-     #swagger.RequestBody = {
-        required: true,
-        schema: {
-          $ref: "#/components/schemas/LoginRequest"
-        }
+     #swagger.requestBody={
+       required: true,
+       schema: {
+         $ref: "#/components/schemas/LoginRequest"
+       }
      }
      */
 
@@ -98,7 +98,7 @@ export default {
      #swagger.security = [{
         "bearerAuth": []
      }] 
-     * */
+     */
     try {
       const user = req.user;
       const result = await UserModel.findById(user?.id);

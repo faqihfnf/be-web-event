@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "http://localhost:3000/api",
       "description": "Local Server"
     },
     {
@@ -67,18 +67,16 @@
           }
         },
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "required": {
-                    "example": "any"
-                  },
-                  "schema": {
-                    "example": "any"
-                  }
-                }
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
@@ -124,7 +122,7 @@
       }
     },
     "schemas": {
-      "loginRequest": {
+      "LoginRequest": {
         "type": "object",
         "properties": {
           "identifier": {
@@ -135,6 +133,9 @@
             "type": "string",
             "example": "1234"
           }
+        },
+        "xml": {
+          "name": "LoginRequest"
         }
       }
     }
