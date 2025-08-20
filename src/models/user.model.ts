@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { encrypt } from "../utils/encryption";
 import { renderMailHtml, sendMail } from "../utils/mail/mail";
-import { CLIENT_HOST } from "../utils/env";
+import { CLIENT_HOST, EMAIL_SMTP_USER } from "../utils/env";
 
 export interface User {
   fullName: string;
@@ -63,23 +63,26 @@ UserSchema.pre("save", function (next) {
 
 //@ middleware kirim email aktivasi
 UserSchema.post("save", async function (doc, next) {
-  const user = doc;
-
-  const contentMail = await renderMailHtml("registration-success.ejs", {
-    username: user.username,
-    fullName: user.fullName,
-    email: user.email,
-    createdAt: user.createdAt,
-    activationLink: `${CLIENT_HOST}/auth/activation?code=${user.activationCode}`,
-  });
-  await sendMail({
-    from: "admin-event@noreply.com",
-    to: user.email,
-    subject: "EVENT - Activation User",
-    html: contentMail,
-  });
-
-  next();
+  try {
+    const user = doc;
+    const contentMail = await renderMailHtml("registration-success.ejs", {
+      username: user.username,
+      fullName: user.fullName,
+      email: user.email,
+      createdAt: user.createdAt,
+      activationLink: `${CLIENT_HOST}/auth/activation?code=${user.activationCode}`,
+    });
+    await sendMail({
+      from: EMAIL_SMTP_USER,
+      to: user.email,
+      subject: "EVENT - Activation User",
+      html: contentMail,
+    });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    next();
+  }
 });
 
 //@ middleware untuk hide password dari response json agar tidak terlihat keluar
