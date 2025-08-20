@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENT - Activation User</title>
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+            margin: 0;
+            margin-top: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: indigo;
+            color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .footer {
+            background-color: rgb(172, 179, 185);
+            padding: 1px;
+            text-align: center;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                margin-top: 0;
+            }
+
+            .container {
+                width: 100%;
+                border-radius: 0;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Selamat Datang!</h1>
+        </div>
+        <!-- Content -->
+        <div class="content">
+            <p>Hi, <%= username %>
+            </p>
+            <p>Terima kasih telah mendaftar di Web Event. Berikut adalah informasi dari akun Anda:</p>
+            <ul>
+                <li><strong>Nama:</strong>
+                    <%= fullName %>
+                </li>
+                <li><strong>Email:</strong>
+                    <%= email %>
+                </li>
+                <li><strong>Tanggal Pendaftaran:</strong>
+                    <%= createdAt %>
+                </li>
+            </ul>
+            <p>Untuk memulai menggunakan Web Event, silakan klik tombol di bawah ini:</p>
+            <a href="<%= activationLink %>" class="button">Aktifkan Akun</a>
+            <p>Jika anda memiliki pertanyaan lebih lanjut, silakan hubungi kami</p>
+            <p>Terima kasih</p>
+        </div>
+        <div class="footer">
+            <p>&copy; Web Event. All rights reserved</p>
+        </div>
+    </div>
+</body>
+
+</html>
